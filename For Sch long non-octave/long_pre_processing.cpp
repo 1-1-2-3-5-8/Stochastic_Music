@@ -55,22 +55,26 @@ void long_pre_1_order_time()
 	long_is_note.open("sch_time_col.txt");//矩阵每列对应音符
 	long_os.open("long_1-order-time.txt");
 	int note;
-	double time;
+	int time;
 	int cnt = 0;
 
+	//先读入第一个音符，后面的都音符大于10，以此作为音符和时值的分界
 	long_is_note >> note;
-	while (note > 35)
+	line.push_back(make_pair(note, 4));
+	cnt++;
+	long_is_note >> note;
+	while (note > 10)
 	{
 		line.push_back(make_pair(note, 4));
 		cnt++;
 		long_is_note >> note;
 	}
-	line[0].second = note * 3;//最后读进去的实际上是第一个时值
+	line[0].second = note;//最后读进去的实际上是第一个时值
 	n = cnt;
 	for (int i = 1; i < n; i++)
 	{
 		long_is_note >> time;
-		line[i].second = (time+0.01) * 3;
+		line[i].second = time;
 	}
 	for (int i = 0; i < n; i++)
 		long_os << line[i].first << "," << line[i].second << " ";
@@ -83,7 +87,7 @@ void long_pre_1_order_time()
 	cnt = 0;
 	while (long_is_note >> note >> time)
 	{
-		long_os << note << "," << (int)((time + 0.01) * 3) << " ";
+		long_os << note << "," << time << " ";
 		cnt++;
 		for (int i = 0; i < n; i++)
 		{
